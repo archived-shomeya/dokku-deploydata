@@ -16,7 +16,7 @@ COMMIT_DATE=$(GIT_DIR=$DOKKU_ROOT/$APP git log -1 --pretty=%ad)
 COMMIT_MESSAGE=$(GIT_DIR=$DOKKU_ROOT/$APP git log -1 --pretty=%s)
 COMMIT_SHA=$(GIT_DIR=$DOKKU_ROOT/$APP git rev-parse HEAD)
 
-# Write the data to deploydata.json
+# Write the data to deploydata.json inside container and commit new layer
 id=$(printf '{"branch": "%s","build_date": "%s","buildhost": "%s","builduser": "%s","commit_author": "%s","commit_date": "%s","commit_message": "%s","commit_sha": "%s"}\n' "$BRANCH" "$BUILD_DATE" "$BUILD_HOST" "$BUILD_USER" "COMMIT_AUTHOR" "$COMMIT_DATE" "$COMMIT_MESSAGE" "$COMMIT_SHA" | docker run -i -a stdin $IMAGE /bin/bash -c "cat > /app/deploydata.json")
 test $(docker wait $id) -eq 0
 docker commit $id $IMAGE > /dev/null
