@@ -1,0 +1,4 @@
+[plugin]
+description = "Adds information about the build to a deploydata.json in the application root"
+version = "1.0.0"
+[plugin.config]
